@@ -1,0 +1,9 @@
+# Build-Ausgaben
+build/
+DerivedData/
+
+# Xcode-Nutzerdaten
+xcuserdata/
+*.xcuserstate
+
+.DS_Store
