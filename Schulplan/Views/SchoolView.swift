@@ -182,6 +182,8 @@ struct SchoolView: View {
             case "documents": DocumentsView()
             case "elections": ElectionsView()
             case "parenttalks": ParentTalksView()
+            case "letter": if let letter = model.letters.first(where: { $0.id == "l1" }) { LetterDetailView(letter: letter) }
+            case "tiles": TilesView()
             default: EmptyView()
             }
         }
@@ -384,8 +386,11 @@ struct LetterDetailView: View {
                 Group {
                     if let detail {
                         VStack(alignment: .leading, spacing: 12) {
-                            Text(detail.text.isEmpty ? "Kein Text." : detail.text)
-                                .textSelection(.enabled)
+                            if detail.text.isEmpty {
+                                Text("Kein Text.").foregroundStyle(.secondary)
+                            } else {
+                                RichText(html: detail.html.isEmpty ? detail.text : detail.html)
+                            }
                             ForEach(detail.attachments) { AttachmentButton(file: $0) }
                         }
                     } else if let error {
@@ -471,9 +476,7 @@ struct TilesView: View {
                             Spacer()
                             if tile.pinned { Image(systemName: "pin.fill").foregroundStyle(.pink) }
                         }
-                        Text(tile.content)
-                            .font(.subheadline)
-                            .textSelection(.enabled)
+                        RichText(html: tile.html ?? tile.content, font: .subheadline)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(16)

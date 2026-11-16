@@ -182,6 +182,8 @@ struct Letter: Codable, Hashable, Identifiable, Sendable {
 
 struct LetterDetail: Hashable, Sendable {
     var text: String
+    /// Original-HTML für die formatierte Anzeige
+    var html: String = ""
     var attachments: [StoredFile]
 }
 
@@ -189,11 +191,14 @@ struct Tile: Codable, Hashable, Identifiable, Sendable {
     var id: String
     var title: String
     var content: String
+    /// Original-HTML für die formatierte Anzeige (fehlt bei älteren gespeicherten Ständen).
+    var html: String?
     var pinned: Bool
     var order: Int
 
-    /// Erkennt geänderten Inhalt ohne den ganzen Text zu vergleichen.
-    var contentHash: String { Parsers.shortHash(title + "|" + content) }
+    /// Erkennt geänderten Inhalt. Über den bereinigten Text gebildet, damit ältere Stände
+    /// (mit noch nicht dekodierten Sonderzeichen) keine falsche „aktualisiert“-Meldung auslösen.
+    var contentHash: String { Parsers.shortHash(HTML.plainText(title) + "|" + HTML.plainText(content)) }
 }
 
 struct SchoolEvent: Codable, Hashable, Identifiable, Sendable {

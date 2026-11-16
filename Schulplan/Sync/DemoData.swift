@@ -173,7 +173,7 @@ enum DemoData {
     static func letterDetail(_ letter: Letter) -> LetterDetail {
         switch letter.id {
         case "l1":
-            LetterDetail(text: "Liebe Eltern,\n\nhiermit laden wir Sie herzlich zum Elternabend der Klasse 7b am kommenden Donnerstag um 19:00 Uhr in Raum 204 ein.\n\nThemen: Wandertag, Skilager, Leistungsstand.\n\nMit freundlichen Grüßen\nS. Hofmann", attachments: [StoredFile(name: "Tagesordnung.pdf", descriptor: .null)])
+            LetterDetail(text: "Liebe Eltern", html: "<p>Liebe Eltern der f&uuml;nften Klassen,<br> herzlich willkommen!</p><p>hiermit laden wir Sie zum <strong>Elternabend der Klasse 7b</strong> am kommenden Donnerstag um 19:00 Uhr in Raum 204 ein.</p><p>Themen:</p><ul><li>Wandertag</li><li>Skilager &ndash; Kosten &amp; Anmeldung</li><li>Leistungsstand</li></ul><p>Mehr Infos auf <a href=\"https://example.org\">unserer Website</a>.</p><p>Viele Gr&uuml;&szlig;e<br> S. Hofmann</p>", attachments: [StoredFile(name: "Tagesordnung.pdf", descriptor: .null)])
         case "l2":
             LetterDetail(text: "Liebe Eltern,\n\ndas Skilager findet vom 18. bis 23. Januar statt. Bitte melden Sie Ihr Kind über die Rückmeldung verbindlich an und geben Sie die Schuhgröße für den Skiverleih an.", attachments: [StoredFile(name: "Packliste.pdf", descriptor: .null), StoredFile(name: "Kosten.pdf", descriptor: .null)])
         default:

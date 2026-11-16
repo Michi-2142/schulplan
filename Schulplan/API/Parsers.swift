@@ -237,17 +237,7 @@ enum Parsers {
     }
 
     /// Manche Nachrichten enthalten einfaches HTML – für die Anzeige in reinen Text wandeln.
-    static func plainText(_ text: String) -> String {
-        guard text.contains("<") else { return text }
-        var result = text
-            .replacingOccurrences(of: "<br\\s*/?>", with: "\n", options: [.regularExpression, .caseInsensitive])
-            .replacingOccurrences(of: "</p>", with: "\n", options: .caseInsensitive)
-            .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
-        for (entity, char) in ["&nbsp;": " ", "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": "\"", "&#39;": "'"] {
-            result = result.replacingOccurrences(of: entity, with: char)
-        }
-        return result.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
+    static func plainText(_ text: String) -> String { HTML.plainText(text) }
 
     // MARK: Elternbriefe
 
@@ -281,7 +271,8 @@ enum Parsers {
         let attachments = (raw["attachments"]?.array ?? [])
             .filter { $0["inline"]?.bool != true }
             .map { storedFile($0["file"], fallbackName: $0["filename"]?.string) }
-        return LetterDetail(text: plainText(raw["text"]?.string ?? ""), attachments: attachments)
+        let html = raw["text"]?.string ?? ""
+        return LetterDetail(text: plainText(html), html: html, attachments: attachments)
     }
 
     // MARK: Pinnwand
@@ -289,10 +280,11 @@ enum Parsers {
     static func tiles(from data: JSONValue?) -> [Tile] {
         (data?.array ?? []).compactMap { raw -> Tile? in
             guard let id = raw["id"]?.string else { return nil }
-            let content = plainText(raw["content"]?.string ?? raw["text"]?.string ?? "")
+            let html = raw["content"]?.string ?? raw["text"]?.string ?? ""
+            let content = plainText(html)
             let title = raw["title"]?.string ?? ""
             guard !content.isEmpty || !title.isEmpty else { return nil }
-            return Tile(id: id, title: title.isEmpty ? "Aushang" : title, content: content,
+            return Tile(id: id, title: title.isEmpty ? "Aushang" : title, content: content, html: html,
                         pinned: raw["displayOnTop"]?.bool ?? false, order: raw["order"]?.int ?? 0)
         }
         .sorted { ($0.pinned ? 0 : 1, $0.order) < ($1.pinned ? 0 : 1, $1.order) }
