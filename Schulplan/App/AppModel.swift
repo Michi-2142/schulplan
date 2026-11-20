@@ -208,7 +208,8 @@ final class AppModel {
         isRefreshing = true
         defer { isRefreshing = false }
         do {
-            let result = try await SyncService.shared.sync(notify: true)
+            // Die App ist offen – Änderungen stehen im Verlauf, Banner wären nur Lärm.
+            let result = try await SyncService.shared.sync(notify: false)
             for (id, snapshot) in result.snapshots { snapshots[id] = snapshot }
             students = store.activeStudents
             history = store.history

@@ -274,6 +274,7 @@ enum ChangeDetector {
         var when = "\(SchoolCalendar.shortWeekday(lesson.date)) \(SchoolCalendar.dayMonth(lesson.date)), \(lesson.hourLabel). Stunde"
         if let start = lesson.start { when += " (\(start))" }
         let body = ([when] + details.filter { !$0.isEmpty }).joined(separator: "\n")
-        return ChangeEvent(kind: kind, detectedAt: now, date: lesson.date, title: title, body: body)
+        return ChangeEvent(kind: kind, detectedAt: now, date: lesson.date, title: title, body: body,
+                           endsAt: SchoolCalendar.dateTime(lesson.date, lesson.end ?? lesson.start))
     }
 }

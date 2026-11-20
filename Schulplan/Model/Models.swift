@@ -94,6 +94,8 @@ struct ChangeEvent: Codable, Hashable, Identifiable, Sendable {
     var date: String?
     var title: String
     var body: String
+    /// Ende der betroffenen Stunde – danach ist eine Mitteilung dazu überflüssig.
+    var endsAt: Date?
     /// Vorname(n) des Kindes – nur gesetzt, wenn das Konto mehrere Kinder hat.
     var student: String?
 

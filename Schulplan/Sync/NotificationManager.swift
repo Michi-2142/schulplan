@@ -22,9 +22,26 @@ enum NotificationManager {
         await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
     }
 
+    /// Mehr Mitteilungen auf einmal werden zu einer Sammelmitteilung – sonst flutet ein Rückstau den Sperrbildschirm.
+    private static let maxSeparate = 4
+
+    /// Arten, die an einen Tag gebunden sind – liegt der schon hinter uns, ist die Mitteilung wertlos.
+    private static let timeBound: Set<ChangeEvent.Kind> = [
+        .cancelled, .substitution, .roomChange, .added, .restored, .changed, .newExam, .newHomework, .alldayNote,
+    ]
+
+    static func isPast(_ event: ChangeEvent, today: String = SchoolCalendar.today, now: Date = .now) -> Bool {
+        guard timeBound.contains(event.kind) else { return false }
+        if let endsAt = event.endsAt { return endsAt < now }
+        guard let date = event.date else { return false }
+        return date < today
+    }
+
     static func deliver(_ events: [ChangeEvent]) async {
+        let today = SchoolCalendar.today
         let wanted = events.filter { event in
-            switch event.kind {
+            guard !isPast(event, today: today) else { return false }
+            return switch event.kind {
             case .newExam: NotificationPrefs.exams
             case .newHomework: NotificationPrefs.homework
             case .newMessage: NotificationPrefs.messages
@@ -38,8 +55,10 @@ enum NotificationManager {
         }
         guard !wanted.isEmpty else { return }
         let center = UNUserNotificationCenter.current()
-        let today = SchoolCalendar.today
         let tomorrow = SchoolCalendar.addDays(1, to: today)
+
+        struct Pending { var content: UNMutableNotificationContent; var threadId: String; var urgent: Bool; var tab: String; var lines: [String] }
+        var pending: [Pending] = []
 
         // Viele Änderungen auf einmal (z. B. ganzer Tag entfällt) → eine Sammelmitteilung pro Tag.
         // Nachrichten, Briefe, Pinnwand und Termine einzeln – nur Stundenplan wird pro Tag gebündelt.
@@ -55,7 +74,9 @@ enum NotificationManager {
             content.title = event.displayTitle
             content.body = event.body
             // Elternbriefe sind wichtig genug, um auch durch den Fokus-Modus zu kommen.
-            await add(content, threadId: target.thread, urgent: [.newLetter, .newAbsence, .exemptionDecided].contains(event.kind), center: center, tab: target.tab)
+            pending.append(Pending(content: content, threadId: target.thread,
+                                   urgent: [.newLetter, .newAbsence, .exemptionDecided].contains(event.kind),
+                                   tab: target.tab, lines: [event.displayTitle]))
         }
 
         let grouped = Dictionary(grouping: wanted.filter { individual[$0.kind] == nil }) { $0.date ?? "" }
@@ -67,14 +88,29 @@ enum NotificationManager {
                 let names = Set(dayEvents.compactMap(\.student))
                 content.title = (names.count == 1 ? "\(names.first!) · " : "") + "\(dayEvents.count) Änderungen · \(label)"
                 content.body = dayEvents.map(\.displayTitle).joined(separator: "\n")
-                await add(content, threadId: date, urgent: urgent, center: center)
+                pending.append(Pending(content: content, threadId: date, urgent: urgent, tab: "changes", lines: [content.title]))
             } else {
                 for event in dayEvents {
                     let content = UNMutableNotificationContent()
                     content.title = event.displayTitle
                     content.body = event.body
-                    await add(content, threadId: date, urgent: urgent && event.kind != .newHomework, center: center)
+                    pending.append(Pending(content: content, threadId: date, urgent: urgent && event.kind != .newHomework,
+                                           tab: "changes", lines: [event.displayTitle]))
                 }
+            }
+        }
+
+        if pending.count > maxSeparate {
+            let content = UNMutableNotificationContent()
+            content.title = "Schulplan · \(wanted.count) Neuigkeiten"
+            let lines = pending.flatMap(\.lines)
+            content.body = (lines.prefix(6) + (lines.count > 6 ? ["… und \(lines.count - 6) weitere"] : [])).joined(separator: "\n")
+            let tabs = Set(pending.map(\.tab))
+            await add(content, threadId: "summary", urgent: pending.contains(where: \.urgent), center: center,
+                      tab: tabs.count == 1 ? tabs.first! : "changes")
+        } else {
+            for item in pending {
+                await add(item.content, threadId: item.threadId, urgent: item.urgent, center: center, tab: item.tab)
             }
         }
     }
