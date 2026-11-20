@@ -38,7 +38,10 @@ struct AttachmentButton: View {
         }
         .buttonStyle(.plain)
         .disabled(isLoading)
-        .quickLookPreview($previewURL)
+        .onChange(of: previewURL) { _, url in
+            guard let url else { return }
+            DocumentPreview.present(url) { previewURL = nil }
+        }
         .alert("Anhang", isPresented: Binding(get: { error != nil }, set: { if !$0 { error = nil } })) {
             Button("OK") { error = nil }
         } message: {
@@ -63,6 +66,56 @@ struct AttachmentButton: View {
             previewURL = try await FileDownloader.download(file)
         } catch {
             self.error = error.localizedDescription
+        }
+    }
+}
+
+/// Zeigt Dokumente in einer eigenen, vollflächigen QuickLook-Vorschau mit deckendem Hintergrund.
+/// SwiftUIs `.quickLookPreview` präsentiert transparent, sodass der Farbverlauf der App durchscheint.
+@MainActor
+private final class DocumentPreview: NSObject, QLPreviewControllerDataSource, QLPreviewControllerDelegate {
+    private static var current: DocumentPreview?
+
+    private let url: URL
+    private let onDismiss: () -> Void
+
+    private init(url: URL, onDismiss: @escaping () -> Void) {
+        self.url = url
+        self.onDismiss = onDismiss
+    }
+
+    static func present(_ url: URL, onDismiss: @escaping () -> Void) {
+        guard let presenter = topViewController() else { onDismiss(); return }
+        let preview = DocumentPreview(url: url, onDismiss: onDismiss)
+        current = preview
+
+        let controller = QLPreviewController()
+        controller.dataSource = preview
+        controller.delegate = preview
+        controller.modalPresentationStyle = .fullScreen
+        controller.view.backgroundColor = .systemBackground
+        presenter.present(controller, animated: true)
+    }
+
+    private static func topViewController() -> UIViewController? {
+        let scene = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first { $0.activationState == .foregroundActive }
+        var top = scene?.keyWindow?.rootViewController
+        while let presented = top?.presentedViewController { top = presented }
+        return top
+    }
+
+    nonisolated func numberOfPreviewItems(in controller: QLPreviewController) -> Int { 1 }
+
+    nonisolated func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
+        MainActor.assumeIsolated { url as NSURL }
+    }
+
+    nonisolated func previewControllerDidDismiss(_ controller: QLPreviewController) {
+        MainActor.assumeIsolated {
+            onDismiss()
+            if Self.current === self { Self.current = nil }
         }
     }
 }

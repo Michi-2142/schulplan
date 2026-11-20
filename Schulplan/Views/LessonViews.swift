@@ -112,40 +112,50 @@ struct StateBadge: View {
     }
 }
 
-/// Detailansicht einer Stunde (aus der Wochenübersicht).
+/// Detailansicht einer Stunde (aus der Wochenübersicht). Mehrere Einträge = Parallelstunden in derselben Stunde.
 struct LessonDetailSheet: View {
-    let lesson: Lesson
+    let lessons: [Lesson]
+    var exams: [Exam] = []
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    LessonCard(lesson: lesson)
-                    VStack(alignment: .leading, spacing: 12) {
-                        row("Datum", "\(SchoolCalendar.longWeekday(lesson.date)), \(SchoolCalendar.dayMonth(lesson.date))")
-                        row("Stunde", "\(lesson.hourLabel). Stunde")
-                        if let time = lesson.timeRange { row("Zeit", time) }
-                        row("Fach", lesson.subject)
-                        if let teacher = lesson.teacher { row("Lehrkraft", teacher) }
-                        if let room = lesson.room { row("Raum", room) }
-                        if lesson.state != .regular {
-                            Divider()
-                            row("Status", lesson.state.label)
-                            if let value = lesson.originalSubject { row("Ursprünglich", value) }
-                            if let value = lesson.originalTeacher { row("Ursprüngl. Lehrkraft", value) }
-                            if let value = lesson.originalRoom { row("Ursprüngl. Raum", value) }
-                        }
-                        if let comment = lesson.comment { row("Hinweis", comment) }
+                    ForEach(exams) { ExamDetailCard(exam: $0) }
+                    ForEach(lessons) { lesson in
+                        LessonCard(lesson: lesson)
                     }
-                    .padding(18)
-                    .glassCard()
+                    ForEach(lessons) { lesson in
+                        details(lesson)
+                    }
                 }
                 .padding()
             }
-            .navigationTitle(lesson.subject)
+            .navigationTitle(lessons.count == 1 ? lessons[0].subject : "\(lessons.first?.hourLabel ?? "–"). Stunde")
             .navigationBarTitleDisplayMode(.inline)
         }
         .presentationDetents([.medium, .large])
+    }
+
+    private func details(_ lesson: Lesson) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            row("Datum", "\(SchoolCalendar.longWeekday(lesson.date)), \(SchoolCalendar.dayMonth(lesson.date))")
+            row("Stunde", "\(lesson.hourLabel). Stunde")
+            if let time = lesson.timeRange { row("Zeit", time) }
+            row("Fach", lesson.subject)
+            if let teacher = lesson.teacher { row("Lehrkraft", teacher) }
+            if let room = lesson.room { row("Raum", room) }
+            if lesson.state != .regular {
+                Divider()
+                row("Status", lesson.state.label)
+                if let value = lesson.originalSubject { row("Ursprünglich", value) }
+                if let value = lesson.originalTeacher { row("Ursprüngl. Lehrkraft", value) }
+                if let value = lesson.originalRoom { row("Ursprüngl. Raum", value) }
+            }
+            if let comment = lesson.comment { row("Hinweis", comment) }
+        }
+        .padding(18)
+        .glassCard()
     }
 
     private func row(_ title: String, _ value: String) -> some View {
@@ -155,5 +165,65 @@ struct LessonDetailSheet: View {
             Text(value).multilineTextAlignment(.trailing)
         }
         .font(.subheadline)
+    }
+}
+
+/// Detailansicht von Arbeiten, die keiner Stunde zugeordnet sind (oder aus der Liste geöffnet werden).
+struct ExamDetailSheet: View {
+    let exams: [Exam]
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    ForEach(exams) { ExamDetailCard(exam: $0) }
+                }
+                .padding()
+            }
+            .navigationTitle(exams.count == 1 ? exams[0].subject : "Arbeiten")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+        .presentationDetents([.medium, .large])
+    }
+}
+
+/// Arbeit mit Termin und vollständiger Anmerkung (was drankommt).
+struct ExamDetailCard: View {
+    let exam: Exam
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Label(exam.type ?? "Arbeit", systemImage: "doc.text.fill")
+                .font(.caption.weight(.bold))
+                .textCase(.uppercase)
+                .foregroundStyle(Color.examColor)
+            Text(exam.subject).font(.title3.bold())
+            Text([
+                "\(SchoolCalendar.longWeekday(exam.date)), \(SchoolCalendar.dayMonth(exam.date))",
+                exam.hoursLabel,
+                timeRange,
+            ].compactMap { $0 }.joined(separator: " · "))
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            if let comment = exam.comment {
+                Divider()
+                Text("Was drankommt").font(.subheadline.weight(.semibold))
+                Text(comment)
+                    .font(.body)
+                    .textSelection(.enabled)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .glassCard(tint: .examColor)
+    }
+
+    private var timeRange: String? {
+        switch (exam.start, exam.end) {
+        case let (start?, end?): "\(start)–\(end) Uhr"
+        case let (start?, nil): "\(start) Uhr"
+        default: nil
+        }
     }
 }

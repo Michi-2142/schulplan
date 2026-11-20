@@ -16,6 +16,15 @@ targets:
     platform: iOS
     sources:
       - path: Schulplan
+    dependencies:
+      - target: SchulplanWidget
+    entitlements:
+      path: Schulplan/Schulplan.entitlements
+      properties:
+        # Eigene Gruppe zuerst: bleibt Standard für die Zugangsdaten. Die zweite teilt den Widget-Stand.
+        keychain-access-groups:
+          - $(AppIdentifierPrefix)de.codeunity.Schulplan
+          - $(AppIdentifierPrefix)de.codeunity.Schulplan.shared
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: de.codeunity.Schulplan
@@ -29,6 +38,10 @@ targets:
         CFBundleDisplayName: Schulplan
         UILaunchScreen: {}
         ITSAppUsesNonExemptEncryption: false
+        CFBundleURLTypes:
+          - CFBundleURLName: de.codeunity.Schulplan
+            CFBundleURLSchemes:
+              - schulplan
         UIBackgroundModes:
           - fetch
           - processing
@@ -41,3 +54,28 @@ targets:
           - UIInterfaceOrientationPortraitUpsideDown
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
+  SchulplanWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: SchulplanWidget
+      - path: Schulplan/Shared
+    entitlements:
+      path: SchulplanWidget/SchulplanWidget.entitlements
+      properties:
+        keychain-access-groups:
+          - $(AppIdentifierPrefix)de.codeunity.Schulplan.shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: de.codeunity.Schulplan.Widget
+        TARGETED_DEVICE_FAMILY: "1,2"
+        CODE_SIGN_STYLE: Automatic
+        SKIP_INSTALL: true
+        ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME: WidgetBackground
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+    info:
+      path: SchulplanWidget/Info.plist
+      properties:
+        CFBundleDisplayName: Schulplan
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension

@@ -21,7 +21,10 @@ final class AppModel {
     var errorMessage: String?
     var selectedTab: AppTab = .today
     var doneHomework: Set<String> = Set(UserDefaults.standard.stringArray(forKey: "doneHomework") ?? []) {
-        didSet { UserDefaults.standard.set(Array(doneHomework), forKey: "doneHomework") }
+        didSet {
+            UserDefaults.standard.set(Array(doneHomework), forKey: "doneHomework")
+            WidgetBridge.publish()
+        }
     }
 
     init() {
@@ -35,6 +38,9 @@ final class AppModel {
         if UserDefaults.standard.string(forKey: "startTab") == "messages" { selectedTab = .messages }
         if UserDefaults.standard.string(forKey: "startTab") == "changes" { selectedTab = .changes }
         if UserDefaults.standard.string(forKey: "startTab") == "school" { selectedTab = .school }
+        if UserDefaults.standard.string(forKey: "startTab") == "week" { selectedTab = .week }
+        // `-autoDemo YES` startet ohne Tippen direkt im Demo-Modus.
+        if UserDefaults.standard.bool(forKey: "autoDemo"), !isLoggedIn { Task { await startDemo() } }
         #endif
     }
 
@@ -109,6 +115,7 @@ final class AppModel {
         current.letters?[index].confirmed = true
         snapshot = current
         store.save(current)
+        WidgetBridge.publish()
     }
 
     var unreadMessages: Int { threads.reduce(0) { $0 + $1.unreadCount } }
@@ -120,6 +127,7 @@ final class AppModel {
             guard let index = snapshot.threads?.firstIndex(where: { $0.subscriptionId == thread.subscriptionId }) else { return }
             snapshot.threads?[index].unreadCount = 0
         }
+        WidgetBridge.publish()
         await MessengerAPI.markRead(thread)
     }
 
@@ -175,6 +183,7 @@ final class AppModel {
     func logout() async {
         if !store.isDemo { await SchulmanagerAPI.shared.logout() }
         store.clearAll()
+        WidgetBridge.clear()
         snapshots = [:]
         history = []
         students = []
@@ -187,6 +196,7 @@ final class AppModel {
         guard id != selectedStudentId else { return }
         store.selectedStudentId = id
         withAnimation(.smooth) { selectedStudentId = id }
+        WidgetBridge.publish()
         // Alle Kinder werden ohnehin abgeglichen – nur nachladen, wenn für dieses Kind noch nichts da ist.
         if snapshots[id] == nil { await refresh() }
     }
@@ -214,6 +224,8 @@ final class AppModel {
     func refreshIfStale() async {
         loadSnapshots()
         history = store.history
+        // Ältere Installationen haben noch keinen Widget-Stand – beim Öffnen einmal nachziehen.
+        if WidgetStore.load() == nil { WidgetBridge.publish() }
         if let fetchedAt = snapshot?.fetchedAt, Date.now.timeIntervalSince(fetchedAt) < 120 { return }
         await refresh()
     }

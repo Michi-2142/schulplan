@@ -135,18 +135,25 @@ struct ExamCard: View {
     var body: some View {
         HStack(spacing: 14) {
             VStack(spacing: 0) {
-                Text("\(daysLeft)").font(.title.bold().monospacedDigit())
-                Text(daysLeft == 1 ? "Tag" : "Tage").font(.caption2)
+                if daysLeft == 0 {
+                    Text("Heute").font(.subheadline.bold())
+                } else if daysLeft < 0 {
+                    Image(systemName: "checkmark").font(.title2.bold())
+                    Text("vorbei").font(.caption2)
+                } else {
+                    Text("\(daysLeft)").font(.title.bold().monospacedDigit())
+                    Text(daysLeft == 1 ? "Tag" : "Tage").font(.caption2)
+                }
             }
-            .foregroundStyle(daysLeft <= 3 ? Color.red : SubjectColor.color(for: exam.subject))
+            .foregroundStyle((0...3).contains(daysLeft) ? Color.red : SubjectColor.color(for: exam.subject))
             .frame(width: 56, height: 56)
-            .glassEffect(.regular.tint((daysLeft <= 3 ? Color.red : SubjectColor.color(for: exam.subject)).opacity(0.2)),
+            .glassEffect(.regular.tint(((0...3).contains(daysLeft) ? Color.red : SubjectColor.color(for: exam.subject)).opacity(0.2)),
                          in: .rect(cornerRadius: 16))
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(exam.subject).font(.headline)
                 Text([exam.type, "\(SchoolCalendar.longWeekday(exam.date)), \(SchoolCalendar.dayMonth(exam.date))",
-                      exam.start.map { "\($0) Uhr" }].compactMap { $0 }.joined(separator: " · "))
+                      exam.hoursLabel ?? exam.start.map { "\($0) Uhr" }].compactMap { $0 }.joined(separator: " · "))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 if let comment = exam.comment {

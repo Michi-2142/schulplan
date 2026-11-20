@@ -225,11 +225,13 @@ enum DemoData {
 
     private static func exams() -> [Exam] {
         let today = SchoolCalendar.today
+        let week = SchoolCalendar.schoolWeekStart()
         return [
-            Exam(id: "ex1", subject: "Mathematik", date: SchoolCalendar.addDays(5, to: today), start: "07:55", end: "09:30",
-                 type: "Schulaufgabe", comment: "Lineare Funktionen"),
-            Exam(id: "ex2", subject: "Englisch", date: SchoolCalendar.addDays(9, to: today), start: "09:50", end: "10:35",
-                 type: "Stegreifaufgabe", comment: nil),
+            // Donnerstag dieser und Mittwoch nächster Woche, damit sie im Wochenplan auftauchen.
+            Exam(id: "ex1", subject: "Mathematik", date: SchoolCalendar.addDays(3, to: week), start: "07:55", end: "09:30",
+                 type: "Schulaufgabe", comment: "Lineare Funktionen:\n• Steigung und y-Achsenabschnitt\n• Funktionsgraphen zeichnen\n• Buch S. 84–97", startHour: 1, endHour: 2),
+            Exam(id: "ex2", subject: "Englisch", date: SchoolCalendar.addDays(9, to: week), start: "09:50", end: "10:35",
+                 type: "Stegreifaufgabe", comment: nil, startHour: 3, endHour: 3),
             Exam(id: "ex3", subject: "Biologie", date: SchoolCalendar.addDays(16, to: today), start: nil, end: nil,
                  type: "Test", comment: "Zelle & Mikroskop"),
         ]

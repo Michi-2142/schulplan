@@ -54,6 +54,7 @@ actor SyncService {
             }
         }
         if snapshots.isEmpty, let lastError { throw lastError }
+        WidgetBridge.publish()
 
         events = Self.mergeDuplicates(events)
         if !events.isEmpty {
@@ -96,7 +97,8 @@ actor SyncService {
             APICall(module: "schedules", endpoint: "get-class-hours"),
             APICall(module: "classbook", endpoint: "get-homework", parameters: ["student": studentParam]),
             APICall(module: "exams", endpoint: "get-exams", parameters: [
-                "student": studentParam, "start": .string(today), "end": .string(SchoolCalendar.addDays(120, to: today)),
+                // Ab Wochenanfang, damit der Wochenplan auch Arbeiten der vergangenen Tage zeigt.
+                "student": studentParam, "start": .string(weekStart), "end": .string(SchoolCalendar.addDays(120, to: today)),
             ]),
             APICall(module: "messenger", endpoint: "get-subscriptions", parameters: ["all": true, "includeArchived": false]),
             APICall(module: "letters", endpoint: "get-letters", parameters: [:]),

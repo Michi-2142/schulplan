@@ -9,27 +9,41 @@
 /* Begin PBXBuildFile section */
 		04E3A7197C91307866C77795 /* JSONValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0084C73242E733B93E2A8E /* JSONValue.swift */; };
 		0C28825FE38A230524EBD8C7 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2B2A6381CEBA8A9BC8A398 /* MainTabView.swift */; };
+		138164686263C615298309EE /* WidgetBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F763A13B1E9BDD431425E81 /* WidgetBridge.swift */; };
+		14E6E6DC6946400EC30701F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CAAEB07341640CCD6CDE7CD /* Assets.xcassets */; };
 		15D47CE825DBBF50437A91EF /* Parsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4B1E21AEE98396E2EF2B60 /* Parsers.swift */; };
 		1966131E1E44204B60DDC228 /* TasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E50DD449B7125FD5A77F93 /* TasksView.swift */; };
+		24070E63FDD3C08BAA3E590A /* WidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7599FAAB6D318183243A4186 /* WidgetData.swift */; };
+		243FB91E81DF5228C607554C /* WidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7599FAAB6D318183243A4186 /* WidgetData.swift */; };
 		25A436A0BBAB090514216B61 /* SchulplanApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA22D2BCD4468456DC5BFE /* SchulplanApp.swift */; };
 		25DA54F72E658B2474FC65FF /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4007820E2EFFE9905B2E5F3C /* AppModel.swift */; };
 		27F1DB4C060865857A2579B1 /* ModuleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E6D71BD5D5927E232D941C /* ModuleViews.swift */; };
+		2F4F39AB60473D1A7A48B641 /* TodayWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBDC2606F37C79DCE978ED3 /* TodayWidgetView.swift */; };
 		30A9D14057CE098713FAA8FB /* SchoolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB7BF04813BF16BC9C7825B /* SchoolView.swift */; };
 		322A3641A09D44DAAA7D7DFB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD444095F4DC8999F22561A2 /* Theme.swift */; };
+		3AF17D61D5353A8F5ABFA77A /* LessonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7E2CDFB14EB8DC023F7A51 /* LessonStyle.swift */; };
+		3CBEDFB862890A1A42E3A4A9 /* SchoolCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00EE51317791A7893FE285F /* SchoolCalendar.swift */; };
+		3E3DE554785F0685B2912283 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1049D6068B794B20C14D883F /* Provider.swift */; };
 		3EB8EEB12179E7D4F944BC5E /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCA9B5A78C55C90299C820 /* SyncService.swift */; };
 		56CC689ED99C0AA7DF499345 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C7A3A95776704CA4A05A45 /* SettingsView.swift */; };
 		57D303B9572AF4F50F07C11E /* LessonViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38BA79AF5A43ACA747C9BC11 /* LessonViews.swift */; };
+		57EC0F903FB6EDF6349177DF /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EEDC1EE7A7D6F1319D1D6F /* Lesson.swift */; };
+		5FF7020487F30E797A0B07D8 /* SchulplanWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0AAECC0D2F57B90BEF222F /* SchulplanWidgetBundle.swift */; };
 		6ABE33AC3FF6609BD53995DF /* BackgroundRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543F3B24D429B09ED6AF7491 /* BackgroundRefresh.swift */; };
 		713B65F1C0A91D49FF252469 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5685AB40F9DF65776E913EC3 /* TodayView.swift */; };
 		73EEFE05B0130319C9E0331E /* ModulesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3907A8804304C55D61616569 /* ModulesAPI.swift */; };
 		76C189ED60698A913CCCC1AB /* SchulmanagerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C28A717A1E09883EA1AB561 /* SchulmanagerAPI.swift */; };
-		7DD350C39742F72D0C247609 /* SchoolCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5D4496E41D4D5BE846C96E /* SchoolCalendar.swift */; };
+		7BF8F32B16893F6F25CF2A06 /* SchulplanWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6E7B56B3AECF5F2623F377C9 /* SchulplanWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7C75BF673D013992605D8A4D /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EEDC1EE7A7D6F1319D1D6F /* Lesson.swift */; };
 		8CD22A35D8DE0698BD7EEE1C /* DemoMessenger.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4B5B6678C8EAFD923344C2 /* DemoMessenger.swift */; };
+		8D99F7692AE14587BA096171 /* WidgetComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A620119374D3528F060F51 /* WidgetComponents.swift */; };
 		902792DEF29B97941850CC0B /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F274AC1602AFD9FA257AE6F /* MessagesView.swift */; };
 		94B9566600D77C2AB168D4DA /* DemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A6D92AB96D51A1306C4D3 /* DemoData.swift */; };
 		9E0558D897561174CEE0BCAA /* LettersAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30DEF835179858C54DC27BE /* LettersAPI.swift */; };
 		A025A98FFB602FE0C9BA7574 /* ChangeDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5556037A5C194DA903BDAF66 /* ChangeDetector.swift */; };
 		A928E29072629148E9DCAF91 /* ChangesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2509C280CD1A68C7CD259B4B /* ChangesView.swift */; };
+		B1F17DDC73BC39399464F3C1 /* SchoolCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00EE51317791A7893FE285F /* SchoolCalendar.swift */; };
+		B3B132B1AC9219F14C273686 /* ChangesWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C2403962E30C46F565D71E /* ChangesWidgetView.swift */; };
 		B7BAD9B8B9888A99C4968948 /* HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D50F9C64EF2A4629B0C4F9 /* HTML.swift */; };
 		C2D19836D3782FD213C483C4 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CC0DEF0F7254D73D3542D5 /* Keychain.swift */; };
 		CB7DDF885CC0168E55F4DEA7 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98939A8C03ED17AAB4988D2 /* SessionStore.swift */; };
@@ -37,48 +51,102 @@
 		DA2754196FB6CC7AE5CA008A /* WeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050AAC5B2894D628BA178249 /* WeekView.swift */; };
 		DF0C1F7A2BF27F3D7E515B3E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2765CE0AF6243D14A94ED76D /* LoginView.swift */; };
 		E0269370416B6ECCE21F8272 /* MessengerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BEA26E81430FE68C26AFBD /* MessengerAPI.swift */; };
+		E0C7EE383C948E7C64484DC2 /* LessonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7E2CDFB14EB8DC023F7A51 /* LessonStyle.swift */; };
 		E1C4F4C4B8AD59863AD0BACF /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173317E6F5BB642CB9F12778 /* NotificationManager.swift */; };
 		F8994215FA4AF208B7E334E3 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5A15544386A8EE94D026C3 /* Models.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		45FDB606DA7761349AE3BF14 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 700C334AAF18E5FC7D008618 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E032AC7C1829C6AA5950F523;
+			remoteInfo = SchulplanWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D9C9936BAED52999CAB1076D /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				7BF8F32B16893F6F25CF2A06 /* SchulplanWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		050AAC5B2894D628BA178249 /* WeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekView.swift; sourceTree = "<group>"; };
 		09C7A3A95776704CA4A05A45 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		0F763A13B1E9BDD431425E81 /* WidgetBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBridge.swift; sourceTree = "<group>"; };
+		1049D6068B794B20C14D883F /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		173317E6F5BB642CB9F12778 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		19805EE2AAE722DD3BEB77AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1CAAEB07341640CCD6CDE7CD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2509C280CD1A68C7CD259B4B /* ChangesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesView.swift; sourceTree = "<group>"; };
 		2765CE0AF6243D14A94ED76D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		35BEA26E81430FE68C26AFBD /* MessengerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerAPI.swift; sourceTree = "<group>"; };
 		38BA79AF5A43ACA747C9BC11 /* LessonViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonViews.swift; sourceTree = "<group>"; };
 		3907A8804304C55D61616569 /* ModulesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesAPI.swift; sourceTree = "<group>"; };
 		3C4B1E21AEE98396E2EF2B60 /* Parsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parsers.swift; sourceTree = "<group>"; };
+		3C821B7C6207BBA405EB8353 /* SchulplanWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SchulplanWidget.entitlements; sourceTree = "<group>"; };
 		3D2B2A6381CEBA8A9BC8A398 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		4007820E2EFFE9905B2E5F3C /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		42C2403962E30C46F565D71E /* ChangesWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesWidgetView.swift; sourceTree = "<group>"; };
 		44D50F9C64EF2A4629B0C4F9 /* HTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTML.swift; sourceTree = "<group>"; };
+		50EF94A8F902B4A85FF2E3C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		53B57683E183C2C454E7971E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		543F3B24D429B09ED6AF7491 /* BackgroundRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRefresh.swift; sourceTree = "<group>"; };
 		5556037A5C194DA903BDAF66 /* ChangeDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeDetector.swift; sourceTree = "<group>"; };
 		5685AB40F9DF65776E913EC3 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		5F274AC1602AFD9FA257AE6F /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
-		6E5D4496E41D4D5BE846C96E /* SchoolCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolCalendar.swift; sourceTree = "<group>"; };
+		63A620119374D3528F060F51 /* WidgetComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetComponents.swift; sourceTree = "<group>"; };
+		6E7B56B3AECF5F2623F377C9 /* SchulplanWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SchulplanWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		70DA899ACE0E5B4213341166 /* Schulplan.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Schulplan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7599FAAB6D318183243A4186 /* WidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetData.swift; sourceTree = "<group>"; };
 		7A1A6D92AB96D51A1306C4D3 /* DemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoData.swift; sourceTree = "<group>"; };
 		7C28A717A1E09883EA1AB561 /* SchulmanagerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchulmanagerAPI.swift; sourceTree = "<group>"; };
 		7EB7BF04813BF16BC9C7825B /* SchoolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolView.swift; sourceTree = "<group>"; };
+		A7FDBC2E14FF9FB54D0E566D /* Schulplan.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Schulplan.entitlements; sourceTree = "<group>"; };
 		AA0084C73242E733B93E2A8E /* JSONValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValue.swift; sourceTree = "<group>"; };
 		AE5A15544386A8EE94D026C3 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		AF0AAECC0D2F57B90BEF222F /* SchulplanWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchulplanWidgetBundle.swift; sourceTree = "<group>"; };
+		B3EEDC1EE7A7D6F1319D1D6F /* Lesson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
 		B7CCA9B5A78C55C90299C820 /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
+		BA7E2CDFB14EB8DC023F7A51 /* LessonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonStyle.swift; sourceTree = "<group>"; };
 		C4EA22D2BCD4468456DC5BFE /* SchulplanApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchulplanApp.swift; sourceTree = "<group>"; };
 		D7CC0DEF0F7254D73D3542D5 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		D98939A8C03ED17AAB4988D2 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		DBBDC2606F37C79DCE978ED3 /* TodayWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWidgetView.swift; sourceTree = "<group>"; };
 		DD444095F4DC8999F22561A2 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		DF4B5B6678C8EAFD923344C2 /* DemoMessenger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoMessenger.swift; sourceTree = "<group>"; };
+		E00EE51317791A7893FE285F /* SchoolCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolCalendar.swift; sourceTree = "<group>"; };
 		E7E50DD449B7125FD5A77F93 /* TasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksView.swift; sourceTree = "<group>"; };
 		F30DEF835179858C54DC27BE /* LettersAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LettersAPI.swift; sourceTree = "<group>"; };
 		F3E6D71BD5D5927E232D941C /* ModuleViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleViews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		0DABDE30ABFF9565032A1612 /* SchulplanWidget */ = {
+			isa = PBXGroup;
+			children = (
+				1CAAEB07341640CCD6CDE7CD /* Assets.xcassets */,
+				42C2403962E30C46F565D71E /* ChangesWidgetView.swift */,
+				50EF94A8F902B4A85FF2E3C6 /* Info.plist */,
+				1049D6068B794B20C14D883F /* Provider.swift */,
+				3C821B7C6207BBA405EB8353 /* SchulplanWidget.entitlements */,
+				AF0AAECC0D2F57B90BEF222F /* SchulplanWidgetBundle.swift */,
+				DBBDC2606F37C79DCE978ED3 /* TodayWidgetView.swift */,
+				63A620119374D3528F060F51 /* WidgetComponents.swift */,
+			);
+			path = SchulplanWidget;
+			sourceTree = "<group>";
+		};
 		1D4077EE715EB04D4625F599 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,7 +170,6 @@
 			isa = PBXGroup;
 			children = (
 				AE5A15544386A8EE94D026C3 /* Models.swift */,
-				6E5D4496E41D4D5BE846C96E /* SchoolCalendar.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -111,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				70DA899ACE0E5B4213341166 /* Schulplan.app */,
+				6E7B56B3AECF5F2623F377C9 /* SchulplanWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -124,6 +192,7 @@
 				DF4B5B6678C8EAFD923344C2 /* DemoMessenger.swift */,
 				173317E6F5BB642CB9F12778 /* NotificationManager.swift */,
 				B7CCA9B5A78C55C90299C820 /* SyncService.swift */,
+				0F763A13B1E9BDD431425E81 /* WidgetBridge.swift */,
 			);
 			path = Sync;
 			sourceTree = "<group>";
@@ -142,9 +211,11 @@
 			children = (
 				53B57683E183C2C454E7971E /* Assets.xcassets */,
 				19805EE2AAE722DD3BEB77AA /* Info.plist */,
+				A7FDBC2E14FF9FB54D0E566D /* Schulplan.entitlements */,
 				E3284433C1C62612413FA92C /* API */,
 				9C0E2E87623E0B53EC66A4FD /* App */,
 				77CE99C4A6327A94B09DBD41 /* Model */,
+				E95C96845538022E083FF623 /* Shared */,
 				A758436498D261290A2A50A0 /* Storage */,
 				968F98FB43825014CDA3D029 /* Sync */,
 				1D4077EE715EB04D4625F599 /* Views */,
@@ -179,8 +250,20 @@
 			isa = PBXGroup;
 			children = (
 				9E736A7921C915E52BC20429 /* Schulplan */,
+				0DABDE30ABFF9565032A1612 /* SchulplanWidget */,
 				92708899F8211489CFBC5CAB /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		E95C96845538022E083FF623 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				B3EEDC1EE7A7D6F1319D1D6F /* Lesson.swift */,
+				BA7E2CDFB14EB8DC023F7A51 /* LessonStyle.swift */,
+				E00EE51317791A7893FE285F /* SchoolCalendar.swift */,
+				7599FAAB6D318183243A4186 /* WidgetData.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,10 +275,12 @@
 			buildPhases = (
 				9065C1A6FA77CB602441B53F /* Sources */,
 				0CB26C7E49683D9287485CCF /* Resources */,
+				D9C9936BAED52999CAB1076D /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				97AFE4F1E0274654AD7F2180 /* PBXTargetDependency */,
 			);
 			name = Schulplan;
 			packageProductDependencies = (
@@ -203,6 +288,24 @@
 			productName = Schulplan;
 			productReference = 70DA899ACE0E5B4213341166 /* Schulplan.app */;
 			productType = "com.apple.product-type.application";
+		};
+		E032AC7C1829C6AA5950F523 /* SchulplanWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB80C103AA32DC53DACAD652 /* Build configuration list for PBXNativeTarget "SchulplanWidget" */;
+			buildPhases = (
+				EE54DFA33C71666D1FAB4F70 /* Sources */,
+				2ADE028688BEE2FA51DFAD55 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SchulplanWidget;
+			packageProductDependencies = (
+			);
+			productName = SchulplanWidget;
+			productReference = 6E7B56B3AECF5F2623F377C9 /* SchulplanWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -214,6 +317,10 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					3E5CB6954D3574D620D27C00 = {
+						DevelopmentTeam = W63SR2C3Q9;
+						ProvisioningStyle = Automatic;
+					};
+					E032AC7C1829C6AA5950F523 = {
 						DevelopmentTeam = W63SR2C3Q9;
 						ProvisioningStyle = Automatic;
 					};
@@ -234,6 +341,7 @@
 			projectRoot = "";
 			targets = (
 				3E5CB6954D3574D620D27C00 /* Schulplan */,
+				E032AC7C1829C6AA5950F523 /* SchulplanWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -244,6 +352,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8322B40100CF69AF8CF063B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2ADE028688BEE2FA51DFAD55 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14E6E6DC6946400EC30701F4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +379,8 @@
 				B7BAD9B8B9888A99C4968948 /* HTML.swift in Sources */,
 				04E3A7197C91307866C77795 /* JSONValue.swift in Sources */,
 				C2D19836D3782FD213C483C4 /* Keychain.swift in Sources */,
+				57EC0F903FB6EDF6349177DF /* Lesson.swift in Sources */,
+				3AF17D61D5353A8F5ABFA77A /* LessonStyle.swift in Sources */,
 				57D303B9572AF4F50F07C11E /* LessonViews.swift in Sources */,
 				9E0558D897561174CEE0BCAA /* LettersAPI.swift in Sources */,
 				DF0C1F7A2BF27F3D7E515B3E /* LoginView.swift in Sources */,
@@ -274,7 +392,7 @@
 				73EEFE05B0130319C9E0331E /* ModulesAPI.swift in Sources */,
 				E1C4F4C4B8AD59863AD0BACF /* NotificationManager.swift in Sources */,
 				15D47CE825DBBF50437A91EF /* Parsers.swift in Sources */,
-				7DD350C39742F72D0C247609 /* SchoolCalendar.swift in Sources */,
+				B1F17DDC73BC39399464F3C1 /* SchoolCalendar.swift in Sources */,
 				30A9D14057CE098713FAA8FB /* SchoolView.swift in Sources */,
 				76C189ED60698A913CCCC1AB /* SchulmanagerAPI.swift in Sources */,
 				25A436A0BBAB090514216B61 /* SchulplanApp.swift in Sources */,
@@ -285,17 +403,64 @@
 				322A3641A09D44DAAA7D7DFB /* Theme.swift in Sources */,
 				713B65F1C0A91D49FF252469 /* TodayView.swift in Sources */,
 				DA2754196FB6CC7AE5CA008A /* WeekView.swift in Sources */,
+				138164686263C615298309EE /* WidgetBridge.swift in Sources */,
+				24070E63FDD3C08BAA3E590A /* WidgetData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE54DFA33C71666D1FAB4F70 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3B132B1AC9219F14C273686 /* ChangesWidgetView.swift in Sources */,
+				7C75BF673D013992605D8A4D /* Lesson.swift in Sources */,
+				E0C7EE383C948E7C64484DC2 /* LessonStyle.swift in Sources */,
+				3E3DE554785F0685B2912283 /* Provider.swift in Sources */,
+				3CBEDFB862890A1A42E3A4A9 /* SchoolCalendar.swift in Sources */,
+				5FF7020487F30E797A0B07D8 /* SchulplanWidgetBundle.swift in Sources */,
+				2F4F39AB60473D1A7A48B641 /* TodayWidgetView.swift in Sources */,
+				8D99F7692AE14587BA096171 /* WidgetComponents.swift in Sources */,
+				243FB91E81DF5228C607554C /* WidgetData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		97AFE4F1E0274654AD7F2180 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E032AC7C1829C6AA5950F523 /* SchulplanWidget */;
+			targetProxy = 45FDB606DA7761349AE3BF14 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		843CBAC3EEEC67E5D420E833 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SchulplanWidget/SchulplanWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SchulplanWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = de.codeunity.Schulplan.Widget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		9193296AF825F4E70B53DA92 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Schulplan/Schulplan.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Schulplan/Info.plist;
@@ -308,6 +473,26 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
+		};
+		A5E3B23D46304C70CCDDAD7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SchulplanWidget/SchulplanWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SchulplanWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = de.codeunity.Schulplan.Widget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
 		};
 		DD3B37F53254FC8838494135 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -380,6 +565,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Schulplan/Schulplan.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Schulplan/Info.plist;
@@ -469,6 +655,15 @@
 			buildConfigurations = (
 				EEA34BC2AA16F15056A7A2DD /* Debug */,
 				9193296AF825F4E70B53DA92 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EB80C103AA32DC53DACAD652 /* Build configuration list for PBXNativeTarget "SchulplanWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5E3B23D46304C70CCDDAD7E /* Debug */,
+				843CBAC3EEEC67E5D420E833 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

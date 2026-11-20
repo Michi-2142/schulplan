@@ -19,6 +19,18 @@ struct SchulplanApp: App {
                     default: model.selectedTab = .changes
                     }
                 }
+                // Tipp auf ein Widget: schulplan://today bzw. schulplan://changes, optional ?student=<id>
+                .onOpenURL { url in
+                    guard url.scheme == "schulplan" else { return }
+                    let studentId = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+                        .queryItems?.first { $0.name == "student" }?.value
+                    Task {
+                        if let studentId, model.students.contains(where: { $0.id == studentId }) {
+                            await model.selectStudent(studentId)
+                        }
+                        model.selectedTab = url.host == "changes" ? .changes : .today
+                    }
+                }
         }
         .onChange(of: scenePhase) { _, phase in
             switch phase {

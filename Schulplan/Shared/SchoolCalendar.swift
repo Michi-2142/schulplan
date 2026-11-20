@@ -78,9 +78,9 @@ enum SchoolCalendar {
     }
 
     /// „Heute“, „Morgen“ oder „Mi 19.11.“
-    static func relativeLabel(_ iso: String) -> String {
-        if iso == today { return "Heute" }
-        if iso == addDays(1, to: today) { return "Morgen" }
+    static func relativeLabel(_ iso: String, from reference: String = today) -> String {
+        if iso == reference { return "Heute" }
+        if iso == addDays(1, to: reference) { return "Morgen" }
         return "\(shortWeekday(iso)) \(dayMonth(iso))"
     }
 
@@ -92,8 +92,17 @@ enum SchoolCalendar {
         return hours * 60 + minutes
     }
 
-    static var nowMinutes: Int {
-        let components = calendar.dateComponents([.hour, .minute], from: .now)
+    static var nowMinutes: Int { minutes(of: .now) }
+
+    /// Minuten seit Mitternacht (Schulzeitzone) für einen Zeitpunkt.
+    static func minutes(of date: Date) -> Int {
+        let components = calendar.dateComponents([.hour, .minute], from: date)
         return (components.hour ?? 0) * 60 + (components.minute ?? 0)
+    }
+
+    /// Zeitpunkt für `yyyy-MM-dd` + `HH:MM`.
+    static func dateTime(_ iso: String, _ time: String?) -> Date? {
+        guard let day = date(iso), let minutes = minutes(time) else { return nil }
+        return calendar.date(byAdding: .minute, value: minutes, to: calendar.startOfDay(for: day))
     }
 }

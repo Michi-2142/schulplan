@@ -149,6 +149,7 @@ enum Parsers {
                 ?? raw["course"]?["subject"]?["name"]?.string
                 ?? raw["course"]?["name"]?.string
                 ?? raw["subject"]?.string
+                ?? raw["subjectText"]?.string
                 ?? "Leistungsnachweis"
             let start = raw["startTime"]?.string ?? raw["startClassHour"]?["from"]?.string ?? raw["classHour"]?["from"]?.string
             let end = raw["endTime"]?.string ?? raw["endClassHour"]?["until"]?.string ?? raw["classHour"]?["until"]?.string
@@ -159,7 +160,9 @@ enum Parsers {
                 start: start.map { String($0.prefix(5)) },
                 end: end.map { String($0.prefix(5)) },
                 type: raw["type"]?["name"]?.string ?? raw["typeName"]?.string,
-                comment: raw["comment"]?.string
+                comment: raw["comment"]?.string,
+                startHour: (raw["startClassHour"] ?? raw["classHour"])?["number"]?.int,
+                endHour: (raw["endClassHour"] ?? raw["classHour"])?["number"]?.int
             )
         }
         .sorted { $0.date < $1.date }
