@@ -167,6 +167,46 @@ struct LetterDetail: Hashable, Sendable {
     /// Original-HTML für die formatierte Anzeige
     var html: String = ""
     var attachments: [StoredFile]
+    /// Rückfragen bzw. Umfrage des Briefs (leer = reine Kenntnisnahme).
+    var questions: [LetterQuestion] = []
+    /// StudentLetterStatus je Kind, inklusive bereits gegebener Antworten.
+    var statuses: [LetterStatus] = []
+    var answerDeadline: Date?
+
+    var answerDeadlineIsOver: Bool { answerDeadline.map { $0 < .now } ?? false }
+
+    /// Status des gewählten Kindes, sonst der erste.
+    func status(for studentId: String?) -> LetterStatus? {
+        statuses.first { $0.studentId == studentId } ?? statuses.first
+    }
+}
+
+/// Eine Frage aus dem Formular eines Elternbriefs (wie `answer-letter-questions` der Web-App).
+struct LetterQuestion: Hashable, Identifiable, Sendable {
+    enum Kind: String, Sendable { case text = "Text", singleSelect = "SingleSelect", multipleSelect = "MultipleSelect" }
+
+    struct Option: Hashable, Identifiable, Sendable {
+        var key: String
+        var label: String
+        var id: String { key }
+    }
+
+    var id: String
+    var text: String
+    var kind: Kind
+    var required: Bool
+    var index: Int
+    var options: [Option]
+}
+
+struct LetterStatus: Hashable, Sendable {
+    var studentId: String?
+    var studentName: String?
+    var confirmed: Bool
+    /// Antworten je Frage-Id: Text, Options-Schlüssel oder Liste von Schlüsseln.
+    var formData: [String: JSONValue]
+    /// Unverändertes Statusobjekt – `letters/confirm` erwartet es so, wie es geliefert wurde.
+    var raw: JSONValue
 }
 
 struct Tile: Codable, Hashable, Identifiable, Sendable {

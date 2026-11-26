@@ -44,4 +44,19 @@ enum LettersAPI {
             throw SMError.server("Bestätigung fehlgeschlagen (Status \(result.first?.status ?? 0)).")
         }
     }
+
+    /// Antworten auf die Fragen eines Briefs speichern – wie `submitFormData` der Web-App.
+    /// Das bestätigt den Brief zugleich.
+    static func submitAnswers(status: LetterStatus, formData: [String: JSONValue]) async throws {
+        if isDemo { return }
+        let result = try await SchulmanagerAPI.shared.call([
+            APICall(module: "letters", endpoint: "confirm", parameters: [
+                "studentLetterStatus": status.raw,
+                "formData": .object(formData),
+            ]),
+        ])
+        guard let first = result.first, first.ok else {
+            throw SMError.server("Antworten konnten nicht gespeichert werden (Status \(result.first?.status ?? 0)).")
+        }
+    }
 }

@@ -365,9 +365,21 @@ struct LetterDetailView: View {
     @State private var detail: LetterDetail?
     @State private var error: String?
     @State private var isConfirming = false
+    @State private var answers: [String: JSONValue] = [:]
+    @State private var savedAnswers: [String: JSONValue] = [:]
 
     /// Aktueller Stand aus dem Modell (z. B. nach Bestätigung).
     private var current: Letter { model.letters.first { $0.id == letter.id } ?? letter }
+
+    /// Status des gewählten Kindes – dessen Antworten werden angezeigt und gespeichert.
+    private var status: LetterStatus? { detail?.status(for: model.selectedStudent?.id) }
+
+    /// Reine Kenntnisnahme: erst zeigen, wenn klar ist, dass der Brief keine Fragen hat.
+    private var showsConfirmCard: Bool {
+        guard current.needsAction else { return false }
+        if let detail { return detail.questions.isEmpty }
+        return error != nil && current.questionCount == 0
+    }
 
     var body: some View {
         ScrollView {
@@ -381,7 +393,7 @@ struct LetterDetailView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                if current.needsAction { confirmCard }
+                if showsConfirmCard { confirmCard }
 
                 Group {
                     if let detail {
@@ -403,6 +415,13 @@ struct LetterDetailView: View {
                 .padding(18)
                 .glassCard()
 
+                if let detail, !detail.questions.isEmpty, let status {
+                    LetterQuestionsForm(questions: detail.questions, answers: $answers,
+                                        studentName: detail.statuses.count > 1 ? status.studentName : nil,
+                                        readonly: detail.answerDeadlineIsOver)
+                    questionsFooter(detail: detail, status: status)
+                }
+
                 if detail?.attachments.isEmpty == false || error != nil {
                     openInBrowser
                 }
@@ -413,7 +432,65 @@ struct LetterDetailView: View {
         .navigationTitle("Elternbrief")
         .navigationBarTitleDisplayMode(.inline)
         .task {
-            do { detail = try await LettersAPI.detail(for: letter) } catch { self.error = error.localizedDescription }
+            do {
+                let loaded = try await LettersAPI.detail(for: letter)
+                detail = loaded
+                answers = loaded.status(for: model.selectedStudent?.id)?.formData ?? [:]
+                savedAnswers = answers
+            } catch { self.error = error.localizedDescription }
+        }
+    }
+
+    private func isAnswered(_ question: LetterQuestion) -> Bool {
+        switch answers[question.id] {
+        case .string(let text)?: !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        case .array(let keys)?: !keys.isEmpty
+        case nil, .null?: false
+        default: true
+        }
+    }
+
+    @ViewBuilder
+    private func questionsFooter(detail: LetterDetail, status: LetterStatus) -> some View {
+        let missingRequired = detail.questions.contains { $0.required && !isAnswered($0) }
+        VStack(alignment: .leading, spacing: 10) {
+            if !detail.answerDeadlineIsOver {
+                Button {
+                    Task {
+                        isConfirming = true
+                        defer { isConfirming = false }
+                        do {
+                            try await model.submitAnswers(current, status: status, formData: answers)
+                            savedAnswers = answers
+                            error = nil
+                        } catch { self.error = error.localizedDescription }
+                    }
+                } label: {
+                    Group {
+                        if isConfirming { ProgressView() } else { Label("Speichern", systemImage: "paperplane.fill") }
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.glassProminent)
+                .tint(.orange)
+                .controlSize(.large)
+                .disabled(missingRequired || isConfirming || (answers == savedAnswers && status.confirmed))
+
+                if !current.needsAction && answers == savedAnswers {
+                    Label("Antworten gespeichert", systemImage: "checkmark.circle.fill")
+                        .font(.subheadline)
+                        .foregroundStyle(.green)
+                }
+            }
+            if let deadline = detail.answerDeadline {
+                let date = deadline.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year().locale(Locale(identifier: "de_DE")))
+                let time = deadline.formatted(.dateTime.hour(.twoDigits(amPM: .omitted)).minute(.twoDigits).locale(Locale(identifier: "de_DE")))
+                Text(detail.answerDeadlineIsOver
+                     ? "Antworten waren nur bis zum \(date) um \(time) Uhr möglich. Änderungen sind nicht mehr möglich."
+                     : "Antworten sind spätestens bis zum \(date) um \(time) Uhr möglich.")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(detail.answerDeadlineIsOver ? Color.secondary : Color.red)
+            }
         }
     }
 
@@ -455,6 +532,90 @@ struct LetterDetailView: View {
             Label("Im Browser öffnen", systemImage: "safari")
         }
         .buttonStyle(.glass)
+    }
+}
+
+// MARK: - Fragen eines Elternbriefs
+
+/// Formular für die Fragen eines Briefs: Freitext, Einfach- und Mehrfachauswahl.
+struct LetterQuestionsForm: View {
+    let questions: [LetterQuestion]
+    @Binding var answers: [String: JSONValue]
+    var studentName: String?
+    var readonly: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            if let studentName {
+                Text("Antworten für \(studentName)").font(.subheadline).foregroundStyle(.secondary)
+            }
+            ForEach(questions) { question in
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("\(Text(question.text).bold())\(Text(question.required ? "" : " (optional)").foregroundStyle(.secondary))")
+                        .font(.headline)
+                    field(for: question)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(18)
+        .glassCard(tint: .blue)
+        .disabled(readonly)
+    }
+
+    @ViewBuilder
+    private func field(for question: LetterQuestion) -> some View {
+        switch question.kind {
+        case .text:
+            TextField("Ihre Antwort", text: textBinding(question.id), axis: .vertical)
+                .lineLimit(2...8)
+                .textFieldStyle(.roundedBorder)
+        case .singleSelect:
+            ForEach(question.options) { option in
+                optionRow(option.label, selected: answers[question.id]?.string == option.key, multiple: false) {
+                    answers[question.id] = .string(option.key)
+                }
+            }
+        case .multipleSelect:
+            let selected = selectedKeys(question.id)
+            ForEach(question.options) { option in
+                optionRow(option.label, selected: selected.contains(option.key), multiple: true) {
+                    var keys = selected
+                    if let index = keys.firstIndex(of: option.key) { keys.remove(at: index) } else { keys.append(option.key) }
+                    // Reihenfolge wie die Optionen, damit gleiche Auswahl gleiche Daten ergibt.
+                    let ordered = question.options.map(\.key).filter(keys.contains)
+                    answers[question.id] = .array(ordered.map { .string($0) })
+                }
+            }
+        }
+    }
+
+    private func optionRow(_ label: String, selected: Bool, multiple: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                Image(systemName: multiple
+                      ? (selected ? "checkmark.square.fill" : "square")
+                      : (selected ? "largecircle.fill.circle" : "circle"))
+                    .foregroundStyle(selected ? Color.orange : .secondary)
+                    .font(.title3)
+                Text(label).foregroundStyle(.primary).multilineTextAlignment(.leading)
+                Spacer(minLength: 0)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(selected ? .isSelected : [])
+    }
+
+    private func selectedKeys(_ id: String) -> [String] {
+        (answers[id]?.array ?? []).compactMap(\.string)
+    }
+
+    private func textBinding(_ id: String) -> Binding<String> {
+        Binding(
+            get: { if case .string(let text)? = answers[id] { text } else { "" } },
+            set: { answers[id] = .string($0) }
+        )
     }
 }
 

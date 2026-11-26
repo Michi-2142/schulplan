@@ -111,6 +111,15 @@ final class AppModel {
 
     func confirm(_ letter: Letter) async throws {
         try await LettersAPI.confirm(letter)
+        markConfirmed(letter)
+    }
+
+    func submitAnswers(_ letter: Letter, status: LetterStatus, formData: [String: JSONValue]) async throws {
+        try await LettersAPI.submitAnswers(status: status, formData: formData)
+        markConfirmed(letter)
+    }
+
+    private func markConfirmed(_ letter: Letter) {
         guard var current = snapshot, let index = current.letters?.firstIndex(where: { $0.id == letter.id }) else { return }
         current.letters?[index].confirmed = true
         snapshot = current

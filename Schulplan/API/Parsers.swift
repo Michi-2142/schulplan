@@ -275,7 +275,35 @@ enum Parsers {
             .filter { $0["inline"]?.bool != true }
             .map { storedFile($0["file"], fallbackName: $0["filename"]?.string) }
         let html = raw["text"]?.string ?? ""
-        return LetterDetail(text: plainText(html), html: html, attachments: attachments)
+        let questions = (raw["questions"]?.array ?? []).compactMap(letterQuestion)
+            .sorted { $0.index < $1.index }
+        let statuses = (raw["studentStatuses"]?.array ?? []).map { status in
+            let student = status["student"]
+            let name = [student?["firstname"]?.string, student?["lastname"]?.string].compactMap { $0 }.joined(separator: " ")
+            return LetterStatus(
+                studentId: status["studentId"]?.string ?? student?["id"]?.string,
+                studentName: name.isEmpty ? nil : name,
+                confirmed: status["readTimestamp"] != nil,
+                formData: status["formData"]?.object ?? [:],
+                raw: status
+            )
+        }
+        return LetterDetail(text: plainText(html), html: html, attachments: attachments,
+                            questions: questions, statuses: statuses,
+                            answerDeadline: raw["answerDeadline"]?.string.flatMap(ISODate.parseFlexible))
+    }
+
+    private static func letterQuestion(_ raw: JSONValue) -> LetterQuestion? {
+        guard let id = raw["id"]?.string, let kind = raw["type"]?.string.flatMap(LetterQuestion.Kind.init) else { return nil }
+        // Die Web-App zeigt die Optionen über die `keyvalue`-Pipe, also nach Schlüssel sortiert.
+        let options = (raw["additionalData"]?["options"]?.object ?? [:])
+            .map { LetterQuestion.Option(key: $0.key, label: $0.value.string ?? $0.key) }
+            .sorted { lhs, rhs in
+                if let l = Int(lhs.key), let r = Int(rhs.key) { return l < r }
+                return lhs.key < rhs.key
+            }
+        return LetterQuestion(id: id, text: plainText(raw["text"]?.string ?? ""), kind: kind,
+                              required: raw["required"]?.bool ?? false, index: raw["index"]?.int ?? 0, options: options)
     }
 
     // MARK: Pinnwand
